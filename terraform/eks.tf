@@ -16,6 +16,7 @@ resource "aws_security_group" "node_group_remote_access" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+data "aws_caller_identity" "current" {}
 
 module "eks" {
 
@@ -28,11 +29,25 @@ module "eks" {
   cluster_endpoint_private_access = true
 
   //access entry for any specific user or role (jenkins controller instance)
-  access_entries = {
-    # One access entry with a policy associated
-    example = {
-      principal_arn = "arn:aws:iam::876997124628:user/terraform"
+  # access_entries = {
+  #   # One access entry with a policy associated
+  #   example = {
+  #     principal_arn = "arn:aws:iam::637423311977:user/terraform"
 
+  #     policy_associations = {
+  #       example = {
+  #         policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+  #         access_scope = {
+  #           type = "cluster"
+  #         }
+  #       }
+  #     }
+  #   }
+  # }
+
+  access_entries = {
+    example = {
+      principal_arn = data.aws_caller_identity.current.arn
       policy_associations = {
         example = {
           policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
@@ -43,7 +58,6 @@ module "eks" {
       }
     }
   }
-
 
   cluster_security_group_additional_rules = {
     access_for_bastion_jenkins_hosts = {
@@ -77,7 +91,8 @@ module "eks" {
 
   eks_managed_node_group_defaults = {
 
-    instance_types = ["t3.large"]
+    instance_types = ["t3.micro"]
+    capacity_type  = "SPOT"
 
     attach_cluster_primary_security_group = true
 
@@ -90,9 +105,9 @@ module "eks" {
     tws-demo-ng = {
       min_size     = 1
       max_size     = 3
-      desired_size = 1
+      desired_size = 2
 
-      instance_types = ["t3.large"]
+      instance_types = ["t3.micro"]
       capacity_type  = "SPOT"
 
       disk_size                  = 35
