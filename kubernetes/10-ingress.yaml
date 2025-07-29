@@ -15,7 +15,7 @@ metadata:
 
 spec:
   rules:
-    - host: easyshop.pureketoria.com
+    - host: easyshop.letsdeployit.com
       http:
         paths:
           - path: /
