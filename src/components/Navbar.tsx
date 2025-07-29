@@ -22,7 +22,7 @@ import { Button } from "./ui/button";
 
 const links = [
   {
-    title: "Shops",
+    title: "Muhib Kamali",
     url: "/shops",
   },
   {
