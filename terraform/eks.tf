@@ -91,7 +91,7 @@ module "eks" {
 
   eks_managed_node_group_defaults = {
 
-    instance_types = ["t3.micro"]
+    instance_types = ["t3.large"]
     capacity_type  = "SPOT"
 
     attach_cluster_primary_security_group = true
@@ -107,7 +107,7 @@ module "eks" {
       max_size     = 3
       desired_size = 2
 
-      instance_types = ["t3.micro"]
+      instance_types = ["t3.large"]
       capacity_type  = "SPOT"
 
       disk_size                  = 35
