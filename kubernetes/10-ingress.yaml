@@ -15,7 +15,7 @@ metadata:
 
 spec:
   rules:
-    - host: argocd.pureketoria.com
+    - host: easyshop.pureketoria.com
       http:
         paths:
           - path: /
